@@ -25,7 +25,7 @@ jobs:
       - name: Run ESLint
         run: |
           cd component
-          npx eslint --config '../eslint.config.cjs' --format json ./src/ > results.json
+          npx eslint --config 'eslint.config.cjs' --format json component/src/ > results.json
           
       # Optional: Save ESLint results as an artifact
       - name: Upload ESLint results
