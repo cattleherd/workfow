@@ -30,7 +30,7 @@ jobs:
       # Run ESLint
       - name: Run ESLint
         run: |
-          npx eslint component/src --config eslint.config.cjs --format json > results.json
+          npx eslint component/src --config eslint.config.cjs --format json --output-file results.json
         continue-on-error: true
 
       # Upload ESLint results (optional)
