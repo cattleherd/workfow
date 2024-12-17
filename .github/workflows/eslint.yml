@@ -20,26 +20,16 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install eslint@9 --save-dev
+          npm install eslint --save-dev
           
       - name: Run ESLint
         run: |
-          # Print ESLint version to verify
-          npx eslint --version
-          
-          # Run ESLint with verbose output
-          npx eslint component/src --config eslint.config.cjs --format json --ext .js > results.json || exit_code=$?
-          
-          # If there are lint errors, exit with code 1
-          if [ -n "$exit_code" ]; then
-            echo "ESLint found issues"
-            cat results.json
-            exit $exit_code
-          fi
+          npx eslint component/src --format json > results.json
                     
+      # Optional: Save ESLint results as an artifact
       - name: Upload ESLint results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: eslint-results
-          path: results.json
+          path: component/results.json
