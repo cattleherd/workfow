@@ -1,0 +1,36 @@
+name: ESLint Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install eslint --save-dev
+          
+      - name: Run ESLint
+        run: |
+          cd component
+          npx eslint --config '../eslint.config.cjs' --format json ./src/ > results.json
+          
+      # Optional: Save ESLint results as an artifact
+      - name: Upload ESLint results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: eslint-results
+          path: component/results.json
